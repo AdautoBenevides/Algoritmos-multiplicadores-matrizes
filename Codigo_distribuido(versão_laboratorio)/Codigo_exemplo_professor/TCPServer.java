@@ -69,26 +69,22 @@ public class TCPServer {
                     out.writeObject(aPart);
                     out.writeObject(b);
 
-                    out.flush(); // Certifique-se de enviar tudo antes de fechar o stream
-                    // Não feche o socket até que o trabalho esteja concluído
+                    out.flush();
                 }
 
                 // Recebe as partes da matriz C dos trabalhadores
                 for (int i = 0; i < numWorkers; i++) {
-                    Socket workerSocket = workerSockets.get(i); // Use o mesmo socket
+                    Socket workerSocket = workerSockets.get(i); 
                     ObjectInputStream in = new ObjectInputStream(workerSocket.getInputStream());
 
                     int[][] cPart = (int[][]) in.readObject();
                     int startRow = i * partSize;
 
-                    System.arraycopy(cPart, 0, c, startRow, partSize); // Copie para a matriz final
-                    in.close(); // Feche o stream de entrada
+                    System.arraycopy(cPart, 0, c, startRow, partSize); 
+                    in.close(); 
 
-                    workerSocket.close(); // Feche o socket após concluir a comunicação
+                    workerSocket.close(); 
                 }
-
-                // Imprime a matriz final
-                printMatrix(c);
 
                 long endTime = System.nanoTime();
                 long executionTime = endTime - startTime;
