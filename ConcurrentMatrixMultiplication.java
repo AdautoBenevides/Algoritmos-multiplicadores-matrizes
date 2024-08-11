@@ -61,26 +61,6 @@ public class ConcurrentMatrixMultiplication {
                 e.printStackTrace();
             }
         }
-        // System.out.println("A");
-        // for (int i = 0; i < order; i++) {
-        // for (int j = 0; j < order; j++) {
-        // System.out.print(a[i][j] + " ");
-        // }
-        // System.out.println();
-        // }
-        // System.out.println("A");
-        // for (int i = 0; i < order; i++) {
-        // for (int j = 0; j < order; j++) {
-        // System.out.print(b[i][j] + " ");
-        // }
-        // System.out.println();
-        // }
-        // for (int i = 0; i < order; i++) {
-        // for (int j = 0; j < order; j++) {
-        // System.out.print(c[i][j] + " ");
-        // }
-        // System.out.println();
-        // }
 
         // Calcula o tempo de execução
         long endTime = System.currentTimeMillis();
