@@ -25,8 +25,6 @@ public class TCPClient {
             int[][] aPart = (int[][]) in.readObject();
             int[][] b = (int[][]) in.readObject();
 
-            // printMatrix(aPart);
-
             int order = b.length;
             int partSize = aPart.length;
 
@@ -39,41 +37,32 @@ public class TCPClient {
 
             // Cria threads para processar as partes da matriz
             Thread[] threads = new Thread[numThreads];
-
-            // System.out.println("Qnt de trheads: " + Thread.activeCount());
+            
             for (int i = 0; i < threads.length; i++) {
 
                 final int threadStartRow = i * partPerThread;
                 final int threadEndRow = (i + 1) * partPerThread;
                 final int index = i;
                 threads[i] = new Thread(() -> {
-                    // System.out.println("Thread " + index + " calculando linhas " + threadStartRow
-                    // + " a " + (threadEndRow - 1));
+                    
                     for (int row = threadStartRow; row < threadEndRow; row++) {
                         for (int col = 0; col < order; col++) {
                             cPart[row][col] = multiplyRowAndColumn(aPart, b, row, col, order);
                         }
                     }
-                    // System.out.println("Thread " + index + " completou cálculos para linhas " +
-                    // threadStartRow + " a " + (threadEndRow - 1));
 
                 });
                 threads[i].start();
             }
 
             // Espera pela conclusão das threads
-            // System.out.println("Qnt de trheads: " + Thread.activeCount());
             for (Thread thread : threads) {
                 thread.join();
             }
 
             // Envia a parte da matriz "C" de volta ao servidor
-            //
             out.writeObject(cPart);
             out.flush();
-            //
-            // System.out.println("Parte da matriz C:");
-            //// printMatrix(cPart);
 
             in.close();
             out.close();
